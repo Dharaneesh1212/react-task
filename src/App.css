@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Mobile responsive */
+@media (min-width: 320px) and (max-width: 425px) {
+  #one {
+    width: 19rem;
+  }
+
+  #two {
+    width: 19rem;
+  }
+
+  #three {
+    width: 19rem;
+  }
+}
