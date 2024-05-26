@@ -17,4 +17,9 @@
   #three {
     width: 19rem;
   }
+
+  #map-data {
+    display: flex;
+    flex-direction: column;
+  }
 }

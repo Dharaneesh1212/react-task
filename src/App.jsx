@@ -1,10 +1,13 @@
 import { useState } from "react";
 import "./App.css";
+import { FaRegEdit } from "react-icons/fa";
 
 const App = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
+  const [submittedData, setSubmittedData] = useState([]);
+  const [editIndex, setEditIndex] = useState(-1);
 
   const personName = (e) => {
     setName(e.target.value);
@@ -15,7 +18,7 @@ const App = () => {
   const personMobile = (e) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
-      setNumber(value);
+      setMobile(value);
     }
   };
 
@@ -28,12 +31,31 @@ const App = () => {
     } else if (mobile.length > 10) {
       alert("Mobile number must not exceed 10 characters");
     } else {
+      const newData = { name, email, mobile };
+      if (editIndex !== -1) {
+        const updatedData = [...submittedData];
+        updatedData[editIndex] = newData;
+        setSubmittedData(updatedData);
+        setEditIndex(-1);
+      } else {
+        setSubmittedData([...submittedData, newData]);
+      }
+      setName("");
+      setEmail("");
+      setMobile("");
       console.log("Success");
     }
   };
 
+  const handleEdit = (index) => {
+    setName(submittedData[index].name);
+    setEmail(submittedData[index].email);
+    setMobile(submittedData[index].mobile);
+    setEditIndex(index);
+  };
+
   return (
-    <main className="flex flex-col gap-8 w-screen">
+    <main className="flex flex-col gap-8 w-full">
       <form
         className="flex justify-center items-center gap-8 mt-8 flex-col"
         id="first"
@@ -75,6 +97,27 @@ const App = () => {
           Save
         </button>
       </form>
+      {submittedData.length > 0 && (
+        <div className="flex justify-center items-center flex-col mt-8">
+          <h2 className="text-2xl font-bold">Saved Data</h2>
+          {submittedData.map((data, index) => (
+            <ul
+              id="map-data"
+              key={index}
+              className="mt-4 flex gap-4 font-medium text-lg shadow-[0_5px_15px_rgba(0,0,0,0.35)] py-2 px-2 rounded-md"
+            >
+              <li>{`Name: ${data.name}`}</li>
+              <li>{`Email: ${data.email}`}</li>
+              <li>{`Mobile: ${data.mobile}`}</li>
+              <button 
+              onClick={() => handleEdit(index)}
+              className="py-2 px-2 bg-green-500 text-lg rounded-md flex justify-center items-center">
+                <FaRegEdit />
+              </button>
+            </ul>
+          ))}
+        </div>
+      )}
     </main>
   );
 };
