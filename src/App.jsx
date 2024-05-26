@@ -13,7 +13,10 @@ const App = () => {
     setEmail(e.target.value);
   };
   const personMobile = (e) => {
-    setMobile(e.target.value);
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setNumber(value);
+    }
   };
 
   const submit = (e) => {
